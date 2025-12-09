@@ -1,0 +1,4 @@
+
+cryptography>=42.0.0
+customtkinter>=5.2.0  # Interfaz moderna
+colorama>=0.4.6       # Colores en CLI
