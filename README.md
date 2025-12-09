@@ -16,7 +16,7 @@
 
 ```bash
 # COMING SOON...
-git clone https://github.com/KotaroGa/neovault
+git clone https://github.com/KotaroGa/NeoVault.git
 cd neovault
 pip install -r requirements.txt
 ```
