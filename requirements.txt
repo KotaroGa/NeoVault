@@ -1,4 +1,7 @@
-
-cryptography>=42.0.0
-customtkinter>=5.2.0  # Interfaz moderna
-colorama>=0.4.6       # Colores en CLI
+cffi==2.0.0
+colorama==0.4.6
+cryptography==46.0.3
+customtkinter==5.2.2
+darkdetect==0.8.0
+packaging==25.0
+pycparser==2.23
