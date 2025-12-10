@@ -6,7 +6,7 @@
 ![Matrix](https://img.shields.io/badge/STATUS-INITIALIZING-green)
 ![Python](https://img.shields.io/badge/PYTHON-3.8+-blue)
 ![Platform](https://img.shields.io/badge/PLATFORM-Win%20|%20Linux%20|%20macOS-black)
-![Version](https://img.shield.io/badge/VERSION-0.1.0-red)
+![Version](https://img.shields.io/badge/VERSION-0.1.0-red)
 
  - SYSTEM: Neovault v0.1.0 online
  - MISSION: Protect Digital Assets
