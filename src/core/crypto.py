@@ -109,6 +109,46 @@ def decrypt_data(encryption_result: Dict[str, Any], key: bytes) -> bytes:
         raise ValueError(f"Decryption failed: {str(e)}. Possible tampering detected.")
 
 
+# ... (después de la función decrypt_data en crypto.py)
+
+def encrypt_to_json(plaintext: Union[str, bytes], key: bytes) -> str:
+    """
+    Encrypt data and return as JSON string for easy storage.
+    """
+    import json
+    import base64
+    
+    encrypted_dict = encrypt_data(plaintext, key)
+    
+    # Convert bytes to base64 for JSON serialization
+    result_dict = {
+        'ciphertext': base64.b64encode(encrypted_dict['ciphertext']).decode('utf-8'),
+        'nonce': base64.b64encode(encrypted_dict['nonce']).decode('utf-8'),
+        'tag': base64.b64encode(encrypted_dict['tag']).decode('utf-8'),
+        'algorithm': encrypted_dict['algorithm']
+    }
+    return json.dumps(result_dict)
+
+
+def decrypt_from_json(encrypted_json: str, key: bytes) -> bytes:
+    """
+    Decrypt data from JSON string.
+    """
+    import json
+    import base64
+    
+    encrypted_dict = json.loads(encrypted_json)
+    
+    # Convert base64 strings back to bytes
+    encryption_result = {
+        'ciphertext': base64.b64decode(encrypted_dict['ciphertext']),
+        'nonce': base64.b64decode(encrypted_dict['nonce']),
+        'tag': base64.b64decode(encrypted_dict['tag']),
+        'algorithm': encrypted_dict['algorithm']
+    }
+    return decrypt_data(encryption_result, key)
+
+
 # Simple test function
 def test_basic_encryption():
     """Test basic encryption and decryption."""
