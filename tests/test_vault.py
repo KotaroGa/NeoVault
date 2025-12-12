@@ -21,18 +21,26 @@ class TestVaultFunctionality(unittest.TestCase):
         self.test_password = "TestMasterPassword123!"
         self.vault = NeoVault()
         
-        # Add some test entries
-        self.vault.add_entry(VaultEntry(
+        # Add some test entries - CON VERIFICACIÓN
+        entry1 = VaultEntry(
             "test_note",
             content="This is a test note",
             metadata={"type": "note", "category": "personal"}
-        ))
-        
-        self.vault.add_entry(VaultEntry(
+        )
+        entry2 = VaultEntry(
             "test_config",
             content="database_url=localhost:5432",
             metadata={"type": "config", "env": "development"}
-        ))
+        )
+        
+        # Verificar que se añaden correctamente
+        added1 = self.vault.add_entry(entry1)
+        added2 = self.vault.add_entry(entry2)
+        
+        if not added1 or not added2:
+            print(f"ERROR en setUp(): No se pudieron añadir entradas")
+            print(f"  added1: {added1}, added2: {added2}")
+            print(f"  Entradas en vault: {self.vault.list_entries()}")
     
     def test_entry_creation(self):
         """Test VaultEntry creation and properties."""
@@ -108,10 +116,18 @@ class TestVaultFunctionality(unittest.TestCase):
     
     def test_vault_retrieval(self):
         """Test getting entries from vault."""
+        # DEBUG: Verificar qué hay en el vault
+        print(f"\n[DEBUG test_vault_retrieval] Entradas en vault: {self.vault.list_entries()}")
+        
         # Get existing entry
         entry = self.vault.get_entry("test_note")
-        self.assertIsNotNone(entry)
-        self.assertEqual(entry.content, "This is a test note")
+        self.assertIsNotNone(entry, f"Entry 'test_note' should exist in vault. Current entries: {self.vault.list_entries()}")
+        
+        # Solo acceder a .content si entry no es None
+        if entry is not None:
+            self.assertEqual(entry.content, "This is a test note")
+        else:
+            self.fail("Entry 'test_note' is None, cannot test content")
         
         # Get non-existent entry
         none_entry = self.vault.get_entry("does_not_exist")
@@ -167,13 +183,20 @@ class TestVaultFunctionality(unittest.TestCase):
             loaded = new_vault.load_vault(temp_path, self.test_password)
             self.assertTrue(loaded)
             
-            # Verify all data matches
+                        # Verify all data matches
             self.assertEqual(len(new_vault.list_entries()), 2)
             
-            original_note = self.vault.get_entry("test_note")
-            loaded_note = new_vault.get_entry("test_note")
-            self.assertEqual(original_note.content, loaded_note.content)
-            self.assertEqual(original_note.metadata, loaded_note.metadata)
+            # CORRECCIÓN: Usar nombres correctos
+            original_entry = self.vault.get_entry("test_note")
+            loaded_entry = new_vault.get_entry("test_note")
+            
+            # Verificar que las entradas existen antes de acceder a atributos
+            self.assertIsNotNone(original_entry, "Original entry 'test_note' should exist")
+            self.assertIsNotNone(loaded_entry, "Loaded entry 'test_note' should exist")
+            
+            if original_entry and loaded_entry:
+                self.assertEqual(original_entry.content, loaded_entry.content)
+                self.assertEqual(original_entry.metadata, loaded_entry.metadata)
             
         finally:
             # Cleanup
@@ -251,4 +274,3 @@ def run_vault_tests():
 
 if __name__ == '__main__':
     run_vault_tests()
-    
