@@ -23,7 +23,7 @@ import string
 
 
 
-def generate_password(length: int = 16, use_symbol: bool = True) -> str:
+def generate_password(length: int = 16, use_symbols: bool = True) -> str:
     """
     Generate secure password.
 
@@ -38,7 +38,7 @@ def generate_password(length: int = 16, use_symbol: bool = True) -> str:
     lowercase = string.ascii_lowercase
     uppercase = string.ascii_uppercase
     digits = string.digits
-    symbols = string.punctuation if use_symbol else ''
+    symbols = string.punctuation if use_symbols else ''
 
     # Ensure at least one from each required category
     all_chars = lowercase + uppercase + digits + symbols
@@ -50,7 +50,7 @@ def generate_password(length: int = 16, use_symbol: bool = True) -> str:
         secrets.choice(digits),
     ]
 
-    if use_symbol:
+    if use_symbols:
         password_chars.append(secrets.choice(symbols))
 
     # Fill rest with random characters
