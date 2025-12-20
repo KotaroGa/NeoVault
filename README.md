@@ -7,7 +7,7 @@
 ![Python](https://img.shields.io/badge/PYTHON-3.8+-blue)
 ![Platform](https://img.shields.io/badge/PLATFORM-Win%20|%20Linux%20|%20macOS-black)
 
- - SYSTEM: Neovault v0.0.1 online
+ - SYSTEM: Neovault v0.2.0 online
  - MISSION: Protect Digital Assets
  - STATUS: Initializing Encryption Protocols..
 

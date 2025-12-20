@@ -64,6 +64,53 @@ def generate_password(length: int = 16, use_symbols: bool = True) -> str:
 
 
 
+def create_vault(vault_path: str, password: str, description: str = "My secure vault") -> bool:
+    """
+    Create a new encrypted vault.
+
+    Args:
+        vault_path to create vault file (e.g., 'secrets.nvault')
+        password: Master password for the vault
+        description: Description of the vault
+
+    Returns:
+        True if successful, False otherwise
+
+    Example:
+        create_vault("my_vault.nvault", "MyPassword123", ""Personal secrets)
+    """
+    try:
+        # Import here to avoid circular imports
+        from ..core import NeoVault
+
+        # Create new vault
+        vault = NeoVault(vault_path)
+        vault.metadata['description'] = description
+
+        # Save vault with encryption
+        success = vault.save_vault(password, vault_path)
+
+        if success:
+            print(f"✅ Vault created: {vault_path}")
+            print(f"   Description: {description}")
+            print(f"   Entries: 0")
+            return True
+        else:
+            print(f"❌ Failed to create vault: {vault_path}")
+            return False
+        
+    except FileExistsError:
+        print(f"❌ File already exists: {vault_path}")
+        return False
+    except PermissionError:
+        print(f"❌ Permission denied: {vault_path}")
+        return False
+    except Exception as e:
+        print(f"❌ Error creating vault: {str(e)}")
+        return False
+
+
+
 # Prueba simple de este archivo
 def _test_commands():
     """Test the commands module."""
