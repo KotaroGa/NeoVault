@@ -450,6 +450,84 @@ def get_entry(vault_path: str, password: str, name: str, show_password: bool = F
 
 
 
+def remove_entry(vault_path: str, password: str, name: str, force: bool = False) -> bool:
+    """
+    Remove an entry from a vault.
+
+    Args:
+        vault_path: Path to vault file
+        password: Master password
+        name: Name of the entry to remove
+        force: If True, skip confirmation prompt
+
+    Returns:
+        True if removed, False otherwise
+
+    Example:
+        remove_entry('vault.nvault', 'password', 'old_entry')
+        # Removes 'old_entry' after confirmation
+    """
+    try:
+        # Import here
+        from ..core import NeoVault
+
+        # Load vault
+        vault = NeoVault()
+        if not vault.load_vault(vault_path, password):
+            print(f"❌ Failed to load vault. Wrong password or corrupt file.")
+            return False
+        
+        # Check if entry exists
+        entry = vault.get_entry(name)
+        if not entry:
+            print(f"❌ Entry '{name}' not found in vault")
+            # Show available entries
+            all_entries = vault.list_entries()
+            if all_entries:
+                print(f"    Available entries: {', '.join(all_entries[:5])}")
+                if len(all_entries) > 5:
+                    print(f"   ... and {len(all_entries) - 5} more")
+            return False
+        
+        # Show entry info before removal
+        print(f"🗑️  Entry to remove: {name}")
+        print(f"   Created:  {entry.created_at[:10]}")
+
+        if entry.metadata:
+            meta_str = ", ".join([f"{k}:{v}" for k, v in entry.metadata.items()][:3])
+            print(f"    Metadata: {meta_str}")
+
+        # Confirmation (unless forced)
+        if not force:
+            try:
+                response = input(f"\n⚠️  Are you sure you want to remove '{name}'? (y/N): ").strip().lower()
+                if response not in ['y', 'yes']:
+                    print("❌ Removal cancelled")
+                    return False
+            except KeyboardInterrupt:
+                print("\n❌ Removal cancelled by user")
+                return False
+            
+        # Remove the entry
+        if vault.remove_entry(name):
+            # Save the update vault
+            if vault.save_vault(password, vault_path):
+                print(f"✅ Entry '{name}' removed successfully")
+                print(f"   Remaining entries: {len(vault.list_entries())}")
+                return True
+            else:
+                print(f"❌ Failed to save vault after removal")
+                return False
+        else:
+            print(f"❌ Failed to remove entry '{name}'")
+            return False
+        
+    except Exception as e:
+        print(f"❌ Error removing entry: {str(e)}")
+        return False
+                    
+
+
 
 # Prueba simple de este archivo
 def _test_commands():
