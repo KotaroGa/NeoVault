@@ -251,6 +251,111 @@ def list_entries(vault_path: str, password: str, show_details: bool = False) -> 
 
 
 
+def search_entries(vault_path: str, password: str, query: str, search_in_content: bool = False) -> Optional[List[Dict[str, Any]]]:
+    """
+    Search entries in a vault by name or metadata
+
+    Args:
+        vault_path: Path to vault file
+        password: Master password
+        query: Search term (case-insensitive)
+        search_in_content: If True, also search in entry content
+
+    Returns:
+        List of matching entries with details, None or error
+
+    Example:
+        results = search_entries('vault.nvault', 'password', 'email')
+        # Returns list of entries containing 'email' in name or metadata
+    """
+    try:
+        # Import here
+        from ..core import NeoVault
+
+        # Load vault
+        vault = NeoVault()
+        if not vault.load_vault(vault_path, password):
+            print(f"❌ Failed to load vault. Wrong password or corrupt file.")
+            return None
+        
+        # Get all entries for searching
+        all_entries = vault.list_entries()
+        if not all_entries:
+            print("📭 Vault is empty")
+            return []
+        
+        query_lower = query.lower()
+        matches = []
+
+        # Search in each entry
+        for entry_name in all_entries:
+            entry = vault.get_entry(entry_name)
+            if not entry:
+                continue
+
+            match_found = False
+
+            # 1. Search in entry name
+            if query_lower in entry.name.lower():
+                match_found = True
+
+            # 2. Search in metadata values (string values only)
+            if not match_found and entry.metadata:
+                for value in entry.metadata.values():
+                    if isinstance(value, str) and query_lower in value.lower():
+                        match_found = True
+                        break
+
+            # 3. Search in content (if enabled)
+            if not match_found and search_in_content and entry.content:
+                if query_lower in entry.content.lower():
+                    match_found = True
+
+            # Add to results if match found
+            if match_found:
+                matches.append({
+                    'name': entry_name,
+                    'content_preview': entry.content[:60] + '...' if entry.content and len(entry.content) > 60 else entry.content,
+                    'file_path': entry.file_path,
+                    'metadata': entry.metadata,
+                    'created_at': entry.created_at,
+                    'match_type': 'name' if query_lower in entry.name.lower() else
+                                'metadata' if entry.metadata and any(
+                                    isinstance(v, str) and query_lower in v.lower()
+                                    for v in entry.metadata.values()
+                                ) else 'content'
+                })
+
+        # Display resutls
+        if matches:
+            print(f"🔍 Search results for '{query}' ({len(matches)} matches):")
+
+            for i, match in enumerate(matches, 1):
+                print(f"\n  {i}. {match['name']}")
+                print(f"     Match in: {match['match_type']}")
+                print(f"     Created: {match['created_at'][:10]}")
+
+                if match['content_preview']:
+                    print(f"      Content: {match['content_preview']}")
+
+                if match['metadata']:
+                    meta_str = ", ".join([f"{k}:{v}" for k, v in match['metadata'].items()])
+                    print(f"     Metadata: {meta_str}")
+    
+        else:
+            print(f"🔍 No results found for '{query}'")
+            if not search_in_content:
+                print("   Tip: Use --content flag to search in entry content as well")
+
+        return matches
+
+    except Exception as e:
+        print(f"❌ Error searching entries: {str(e)}")
+        return None
+
+
+
+
 # Prueba simple de este archivo
 def _test_commands():
     """Test the commands module."""
