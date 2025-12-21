@@ -356,6 +356,101 @@ def search_entries(vault_path: str, password: str, query: str, search_in_content
 
 
 
+def get_entry(vault_path: str, password: str, name: str, show_password: bool = False) -> Optional[Dict[str, Any]]:
+    """
+    Get detailed information about a specific entry.
+
+    Args:
+        vault_path: Path to vault file
+        password: Master password+
+        name: Name of entry to retrieve
+        show_password: If True, show full content (useful for passwords)
+
+    Returns:
+        Dictionary with entry details if found, None otherwise
+
+    Example:
+        entry = get_entry('vault.nvault', 'password', 'email')
+        # Returns detailed information about 'email' entry
+    """
+    try:
+        # Import here
+        from ..core import NeoVault
+
+        # Load vault
+        vault = NeoVault()
+        if not vault.load_vault(vault_path, password):
+            print(f"❌ Failed to load vault. Wrong password or corrupt file.")
+            return None
+        
+        # Get the entry
+        entry = vault.get_entry(name)
+        if not entry:
+            print(f"❌ Entry '{name}' not found in vault")
+            # Suggest simular entries
+            all_entries = vault.list_entries()
+            if all_entries:
+                print(f"    Available entries: {', '.join(all_entries)}")
+            return None
+        
+        # Prepare entry details
+        entry_details = {
+            'name': entry.name,
+            'content': entry.content if show_password else None,
+            'content_preview': None,
+            'file_path': entry.file_path,
+            'metadata': entry.metadata,
+            'created_at': entry.created_at,
+            'modified_at': entry.modified_at,
+            'exists': True
+        }
+
+        # Create content preview (masked if not showing password)
+        if entry.content:
+            if show_password:
+                entry_details['content_preview'] = entry.content
+            else:
+                if len(entry.content) <= 20:
+                    # For short content, show asterisks
+                    entry_details['content_preview'] = '*' * len(entry.content)
+                else:
+                    # For longer content, show first and last chars
+                    first_part = entry.content[:8]
+                    last_part = entry.content[-4:] if len(entry.content) > 12 else ''
+                    middle = '*' * max(3, len(entry.content) - 12)
+                    entry_details['content_preview'] = f"{first_part}{middle}{last_part}"
+        
+        # Display entry information
+        print(f"📄 Entry: {entry.name}")
+        print(f"  Created:  {entry.created_at}")
+        print(f"  Modified: {entry.modified_at}")
+
+        if entry_details['content_preview']:
+            print(f"    Content: {entry_details['content_preview']}")
+            if not show_password and entry.content and len(entry.content) > 0:
+                print(f"    Length:    {len(entry.content)} characters")
+
+        if entry.file_path:
+            print(f"   File:   {entry.file_path}")
+
+        if entry.metadata:
+            print(f"  Metadata:")
+            for key, value in entry.metadata.items():
+                print(f"   {key}: {value}")
+
+        # Security note if content is hidden
+        if entry.content and not show_password:
+            print(f"\n  🔒 Content is hidden. Use --show flag to reveal.")
+
+        return entry_details
+    
+    except Exception as e:
+        print(f"❌ Error retrieving entry: {str(e)}")
+        return None
+
+
+
+
 # Prueba simple de este archivo
 def _test_commands():
     """Test the commands module."""
