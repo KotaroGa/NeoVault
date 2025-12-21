@@ -528,6 +528,318 @@ def remove_entry(vault_path: str, password: str, name: str, force: bool = False)
                     
 
 
+def interactive_shell(vault_path: str = "vault.nvault") -> None:
+    """
+    Start an interactive shell for NeoVault operations.
+
+    Args:
+        vault_path: Path to vault file (default: 'vault.nvault')
+
+    Example:
+        interactive_shell('my_vault.nvault')
+        # Starts interactive session with the vault
+    """
+    print("\n" + "="*60)
+    print("🔐 NEOVAULT INTERACTIVE SHELL")
+    print("="*60)
+    print("Type 'help' for commands, 'exit' to quit\n")
+
+    #State
+    vault = None
+    password = None
+    vault_loaded = False
+
+
+    def print_prompt():
+        """Print the shell prompt"""
+        status = "🔓" if vault_loaded else "🔒"
+        vault_name = vault_path.split('/')[-1] if '/' in vault_path else vault_path
+        return f"{status} neo:{vault_name}> "
+    
+
+    def show_help():
+        """Show available commands"""
+        print("\nAvailable commands:")
+        print("  login                          - Unlock vault with password")
+        print("  logout                         - Lock the vault")
+        print("  create                         - Create new vault (overwrites existing)")
+        print("  add <name>                     - Add new entry")
+        print("  list [--details]               - List all entries")
+        print("  get <name> [--show]            - Get entry details")
+        print("  search <query>                 - Search entries")
+        print("  remove <name> [--force]        - Remove entry")
+        print("  generate [--length N]          - Generate password")
+        print("  info                           - Show vault information")
+        print("  help                           - Show this help")
+        print("  exit, quit                     - Exit shell")
+        print("\nArguments in [brackets are optional]")
+        print("Use --help with any command for more details")
+
+
+    def parse_args(cmd_line: str):
+        """Simple argument parser for shel commands"""
+        parts = []
+        current = []
+        in_quotes = False
+        quote_char = None
+
+        for char in cmd_line:
+            if char in ['"', "'"]:
+                if not in_quotes:
+                    in_quotes = True
+                    quote_char = char
+                elif char == quote_char:
+                    in_quotes = False
+                    if current:
+                        parts.append(''.join(current))
+                        current = []
+                else:
+                    current.append(char)
+            elif char == ' ' and not in_quotes:
+                if current:
+                    parts.append(''.join(current))
+                    current = []
+            else:
+                current.append(char)
+
+        if current:
+            parts.append(''.join(current))
+
+        return parts
+    
+    # Main shell loop
+    while True:
+        try:
+            # Get command
+            cmd_line = input(print_prompt()).strip()
+
+            if not cmd_line:
+                continue
+
+            # Parse command and arguments
+            parts = parse_args(cmd_line)
+            if not parts:
+                continue
+
+            command = parts[0].lower()
+            args = parts[1:] if len(parts) > 1 else []
+
+            # Handle commands
+            if command in ['exit', 'quit', 'q']:
+                print("Exiting NeoVault shell...")
+                if vault_loaded:
+                    print("Vault locked 🔒")
+                break
+
+            elif command in ['help', '?', 'h']:
+                if vault_loaded:
+                    print("⚠️  Already logged in. Use 'logout' first.")
+                    continue
+
+                from getpass import getpass
+                password = getpass("Master password: ")
+
+                try:
+                    from ..core import NeoVault
+                    vault = NeoVault()
+                    if vault.load_vault(vault_path, password):
+                        vault_loaded = True
+                        print(f"✅ Vault unlocked: {vault_path}")
+                        info = vault.get_vault_info()
+                        print(f"   Entries: {info['entry_count']}")
+                    else:
+                        print("❌ Failed to load vault. Wrong password?")
+                        password = None
+                except Exception as e:
+                    print(f"❌ Error: {e}")
+                    vault = None
+                    password = None
+
+            elif command == 'logout':
+                if not vault_loaded:
+                    print("⚠️  Not logged in")
+                else:
+                    vault = None
+                    password = None
+                    vault_loaded = False
+                    print("✅ Vault locked 🔒")
+
+            elif command == 'create':
+                if vault_loaded:
+                    print("⚠️  Please logout first before creating new vault")
+                    continue
+
+                from getpass import getpass
+                print(f"Creating new vault: {vault_path}")
+                print("⚠️  WARNING: This will overwrite existing vault!")
+
+                password1 = getpass("New master password: ")
+                password2 = getpass("Confirmed password: ")
+
+                if password1 != password2:
+                    print("❌ Passwords do not match")
+                    continue
+
+                description = input("Vault description (optional): ").strip() or "My secure vault"
+
+                if create_vault(vault_path, password1, description):
+                    print(f"✅ Vault created successfully")
+                    print("   Use 'login' to unlock it")
+                else:
+                    print("❌ Failed to create vault")
+
+            elif command == 'add':
+                if not vault_loaded:
+                    print("⚠️  Please login first (use 'login' command)")
+                    continue
+
+                if password is None:
+                    print("❌ Password not available. Please login again.")
+                    continue
+
+                if len(args) < 1:
+                    print("Usage: add <entry_name>")
+                    continue
+
+                name = args[0]
+                content = input(f"Content for '{name}': ").strip()
+
+                metadata_str = input("Metadata as JSON (optional, e.g., {\"type\": \"password\"}): ").strip()
+                metadata = {}
+                if metadata_str:
+                    try:
+                        metadata = json.loads(metadata_str)
+                    except json.JSONDecodeError:
+                        print("❌ Invalid JSON. Using empty metadata.")
+
+                if add_entry(vault_path, password, name, content, None, metadata):
+                    print(f"✅ Entry '{name}' added")
+                else:
+                    print(f"❌ Failed to add entry '{name}'")
+
+            elif command == 'list':
+                if not vault_loaded:
+                    print("⚠️  Please login first (use 'login' command)")
+                    continue
+
+                if password is None:
+                    print("❌ Password not available. Please login again.")
+                    continue
+
+                show_details = '--details' in args or '--verbose' in args
+                list_entries(vault_path, password, show_details)
+
+            elif command == 'get':
+                if not vault_loaded:
+                    print("⚠️  Please login first (use 'login' command)")
+                    continue
+
+                if len(args) < 1:
+                    print("Usage: get <entry_name> [--show]")
+                    continue
+
+                if password is None:
+                    print("❌ Password not available. Please login again.")
+                    continue
+
+                name = args[0]
+                show_password = '--show' in args or '--reveal' in args
+                get_entry(vault_path, password, name, show_password)
+            
+            elif command == 'search':
+                if not vault_loaded:
+                    print("⚠️  Please login first (use 'login' command)")
+                    continue
+                
+                if len(args) < 1:
+                    print("Usage: search <query> [--content]")
+                    continue
+
+                if password is None:
+                    print("❌ Password not available. Please login again.")
+                    continue
+
+                query = args[0]
+                search_in_content = '--content' in args
+                search_entries(vault_path, password, query, search_in_content)
+
+            elif command == 'remove':
+                if not vault_loaded:
+                    print("⚠️  Please login first (use 'login' command)")
+                    continue
+                
+                if len(args) < 1:
+                    print("Usage: remove <entry_name> [--force]")
+                    continue
+
+                if password is None:
+                    print("❌ Password not available. Please login again.")
+                    continue
+
+                name = args[0]
+                force = '--force' in args or '-f' in args
+                remove_entry(vault_path, password, name, force)
+            
+            elif command == 'generate':
+                # Generate password doesn't require login
+                length = 16
+                use_symbols = True
+                
+                # Parse arguments
+                for i, arg in enumerate(args):
+                    if arg == '--length' and i + 1 < len(args):
+                        try:
+                            length = int(args[i + 1])
+                        except ValueError:
+                            print(f"❌ Invalid length: {args[i + 1]}")
+                    elif arg == '--no-symbols':
+                        use_symbols = False
+
+                password_gen = generate_password(length, use_symbols)
+                print(f"🔑 Generated password: {password_gen}")
+                print(f"   Length: {length}, Symbols: {'Yes' if use_symbols else 'No'}")
+            
+            elif command == 'info':
+                if not vault_loaded:
+                    print("⚠️  Please login first (use 'login' command)")
+                    continue
+
+                if vault is None:
+                    print("❌ Vault not loaded. Please login again.")
+                    continue
+
+                try:
+                    info = vault.get_vault_info()
+                    print(f"\n📊 Vault Information:")
+                    print(f"  Path:     {info['path']}")
+                    print(f"  Entries:  {info['entry_count']}")
+                    print(f"  Created:  {info['metadata'].get('created_at', 'Unknown')}")
+                    print(f"  Modified: {info['metadata'].get('modified_at', 'Unknown')}")
+                    print(f"  Version:  {info['metadata'].get('version', 'Unknown')}")
+
+                    if 'description' in info['metadata']:
+                        print(f"  Description: {info['metadata']['description']}")
+                except AttributeError as e:
+                    print(f"❌ Error getting vault info: {e}")
+                
+            else:
+                print(f"❌ Unknown command: {command}")
+                print("   Type 'help' for available commands")
+
+        except KeyboardInterrupt:
+            print("\n\nUse 'exit' to quit the shell")
+        except EOFError:
+            print("\n\nExiting NeoVault shell...")
+            break
+        except Exception as e:
+            print(f"❌ Error: {e}")
+    
+    print("\n" + "="*60)
+    print("Goodbye! 🔒")
+    print("="*60)
+
+
+
 
 # Prueba simple de este archivo
 def _test_commands():
