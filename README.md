@@ -42,67 +42,49 @@ python src/cli/main.py --help
 
 ### 🔮 FEATURES IMPLEMENTED
 
-✅ CREATE VAULTS - nvault create <vault.nvault>
-✅ ADD SECRETS   - nvault add <name> --content "secret"
-✅ LIST ENTRIES  - nvault list [--details]
-✅ SEARCH VAULT  - nvault search <query>
-✅ GET ENTRIES   - nvault get <name> [--show]
-✅ REMOVE ITEMS  - nvault remove <name> [--force]
-✅ GEN PASSWORDS - nvault generate [--length N]
-✅ SHELL MODE    - nvault shell
+- ✅ CREATE VAULTS - nvault create <vault.nvault>
+- ✅ ADD SECRETS   - nvault add <name> --content "secret"
+- ✅ LIST ENTRIES  - nvault list [--details]
+- ✅ SEARCH VAULT  - nvault search <query>
+- ✅ GET ENTRIES   - nvault get <name> [--show]
+- ✅ REMOVE ITEMS  - nvault remove <name> [--force]
+- ✅ GEN PASSWORDS - nvault generate [--length N]
+- ✅ SHELL MODE    - nvault shell
 
-✅ AES-256-GCM ENCRYPTION ENGINE
-✅ PBKDF2 KEY DERIVATION (600K iterations)
-✅ COMPLETE VAULT MANAGEMENT
-✅ ENTRY METADATA SUPPORT
-✅ SECURE VAULT PERSISTENCE
+- ✅ AES-256-GCM ENCRYPTION ENGINE
+- ✅ PBKDF2 KEY DERIVATION (600K iterations)
+- ✅ COMPLETE VAULT MANAGEMENT
+- ✅ ENTRY METADATA SUPPORT
+- ✅ SECURE VAULT PERSISTENCE
 
-✅ CRYPTOGRAPHIC PRIMITIVES
-✅ KEY DERIVATION FUNCTIONS
-✅ BASIC FILE OPERATIONS
-✅ INTEGRATION TESTING
+- ✅ CRYPTOGRAPHIC PRIMITIVES
+- ✅ KEY DERIVATION FUNCTIONS
+- ✅ BASIC FILE OPERATIONS
+- ✅ INTEGRATION TESTING
 
 
 ### 🚧 FEATURES IN PROGRESS
-🔄 SETUP.PY FOR PACKAGE INSTALLATION
-🔄 UNIT TESTS FOR CLI MODULE
-🔲 MATRIX-STYLE GUI (v0.4.0)
-🔲 PASSWORD STRENGTH VALIDATOR
-🔲 PORTABLE EXECUTABLES
+- 🔄 SETUP.PY FOR PACKAGE INSTALLATION
+- 🔄 UNIT TESTS FOR CLI MODULE
+- 🔲 MATRIX-STYLE GUI (v0.4.0)
+- 🔲 PASSWORD STRENGTH VALIDATOR
+- 🔲 PORTABLE EXECUTABLES
 
 
 ### ⚙️ TECH STACK
->_ BACKEND: Python 3.8+
->_ CRYPTO: cryptography (AES-256-GCM)
->_ CLI: Argparse + Getpass
->_ GUI: CustomTkinter (PLANNED)
->_ BUILD: PyInstaller (FUTURE)
-
-
-### 🗂️ PROJECT STRUCTURE
-neovault/
-├── src/
-│   ├── core/           # ENCRYPTION ENGINE
-│   │   ├── crypto.py              # AES-256-GCM
-│   │   ├── key_derivation.py      # PBKDF2
-│   │   └── vault.py               # VAULT MANAGEMENT
-│   └── cli/            # COMMAND LINE INTERFACE
-│       ├── main.py                # CLI ENTRY POINT
-│       └── commands.py            # ALL COMMANDS
-├── tests/              # TEST SUITE
-│   ├── test_vault.py             # VAULT TESTS
-│   └── test_cli.py               # CLI TESTS (COMING)
-├── requirements.txt    # DEPENDENCIES
-├── CHANGELOG.md       # VERSION HISTORY
-└── README.md          # DOCUMENTATION
+- >_ BACKEND: Python 3.8+
+- >_ CRYPTO: cryptography (AES-256-GCM)
+- >_ CLI: Argparse + Getpass
+- >_ GUI: CustomTkinter (PLANNED)
+- >_ BUILD: PyInstaller (FUTURE)
 
 
 ### 🐉 WARNING
->_ THIS IS VERSION 0.3.0 - DEVELOPMENT
->_ DO NOT USE FOR PRODUCTION DATA
->_ SECURITY AUDIT PENDING
->_ ALWAYS BACKUP YOUR FILES
->_ REPORT ISSUES ON GITHUB
+- >_ THIS IS VERSION 0.3.0 - DEVELOPMENT
+- >_ DO NOT USE FOR PRODUCTION DATA
+- >_ SECURITY AUDIT PENDING
+- >_ ALWAYS BACKUP YOUR FILES
+- >_ REPORT ISSUES ON GITHUB
 
 ---
 >##### NeoVault - Because your secrets deserve a guardian. 🔐
