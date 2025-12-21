@@ -1,42 +1,108 @@
 
 ## 🔐 NEOVAULT - Secure File Vault
 
-> **MATRIX EDITION** | `>_ ENCRYPTION INITIATED`
+> **MATRIX EDITION** | `>_ CLI OPERATIONAL`
 
-![Matrix](https://img.shields.io/badge/STATUS-INITIALIZING-green)
+![Matrix](https://img.shields.io/badge/STATUS-CLI_OPERATIONAL-green)
 ![Python](https://img.shields.io/badge/PYTHON-3.8+-blue)
 ![Platform](https://img.shields.io/badge/PLATFORM-Win%20|%20Linux%20|%20macOS-black)
+![Version](https://img.shields.io/badge/VERSION-0.3.0-red)
 
- - SYSTEM: Neovault v0.2.0 online
+
+ - SYSTEM: Neovault v0.3.0 online
  - MISSION: Protect Digital Assets
- - STATUS: Initializing Encryption Protocols..
+ - STATUS: CLI Interface Active
+ - PROTOCOLS: AES-256-GCM | PBKDF2-HMAC-SHA256
 
 
 ### 🚀 QUICK START
 
 ```bash
-# COMING SOON...
-git clone https://github.com/KotaroGa/neovault
+# Clone the repository
+git clone https://github.com/KotaroGa/neovault.git
 cd neovault
+
+# Checkout latest release
+git checkout v0.3.0
+
+# Create virtual environment
+python -m venv .venv
+
+# Activate (Linux/macOS)
+source .venv/bin/activate
+# Activate (Windows)
+# venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Test CLI installation
+python src/cli/main.py --help
 ```
 
-### 🔮 FEATURES (PLANNED)
-- AES-256-GCM ENCRYPTION
-- MATRIX-STYLE INTERFACE
-- MULTIPLATFORM (Windows/Linux/macOS)
-- CLOUD SYNC OPTIONAL
-- PASSWORD GENERATOR
-- PORTABLE EXECUTABLES
+### 🔮 FEATURES IMPLEMENTED
+
+✅ CREATE VAULTS - nvault create <vault.nvault>
+✅ ADD SECRETS   - nvault add <name> --content "secret"
+✅ LIST ENTRIES  - nvault list [--details]
+✅ SEARCH VAULT  - nvault search <query>
+✅ GET ENTRIES   - nvault get <name> [--show]
+✅ REMOVE ITEMS  - nvault remove <name> [--force]
+✅ GEN PASSWORDS - nvault generate [--length N]
+✅ SHELL MODE    - nvault shell
+
+✅ AES-256-GCM ENCRYPTION ENGINE
+✅ PBKDF2 KEY DERIVATION (600K iterations)
+✅ COMPLETE VAULT MANAGEMENT
+✅ ENTRY METADATA SUPPORT
+✅ SECURE VAULT PERSISTENCE
+
+✅ CRYPTOGRAPHIC PRIMITIVES
+✅ KEY DERIVATION FUNCTIONS
+✅ BASIC FILE OPERATIONS
+✅ INTEGRATION TESTING
+
+
+### 🚧 FEATURES IN PROGRESS
+🔄 SETUP.PY FOR PACKAGE INSTALLATION
+🔄 UNIT TESTS FOR CLI MODULE
+🔲 MATRIX-STYLE GUI (v0.4.0)
+🔲 PASSWORD STRENGTH VALIDATOR
+🔲 PORTABLE EXECUTABLES
+
 
 ### ⚙️ TECH STACK
 >_ BACKEND: Python 3.8+
 >_ CRYPTO: cryptography (AES-256-GCM)
->_ GUI: CustomTkinter
->_ CLI: Argparse + Colorama
->_ BUILD: PyInstaller
+>_ CLI: Argparse + Getpass
+>_ GUI: CustomTkinter (PLANNED)
+>_ BUILD: PyInstaller (FUTURE)
+
+
+### 🗂️ PROJECT STRUCTURE
+neovault/
+├── src/
+│   ├── core/           # ENCRYPTION ENGINE
+│   │   ├── crypto.py              # AES-256-GCM
+│   │   ├── key_derivation.py      # PBKDF2
+│   │   └── vault.py               # VAULT MANAGEMENT
+│   └── cli/            # COMMAND LINE INTERFACE
+│       ├── main.py                # CLI ENTRY POINT
+│       └── commands.py            # ALL COMMANDS
+├── tests/              # TEST SUITE
+│   ├── test_vault.py             # VAULT TESTS
+│   └── test_cli.py               # CLI TESTS (COMING)
+├── requirements.txt    # DEPENDENCIES
+├── CHANGELOG.md       # VERSION HISTORY
+└── README.md          # DOCUMENTATION
+
 
 ### 🐉 WARNING
->_ THIS IS A WORK IN PROGRESS
->_ DO NOT USE FOR PRODUCTION (YET)
+>_ THIS IS VERSION 0.3.0 - DEVELOPMENT
+>_ DO NOT USE FOR PRODUCTION DATA
+>_ SECURITY AUDIT PENDING
 >_ ALWAYS BACKUP YOUR FILES
+>_ REPORT ISSUES ON GITHUB
+
+---
+>##### NeoVault - Because your secrets deserve a guardian. 🔐
