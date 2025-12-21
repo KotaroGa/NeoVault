@@ -111,6 +111,78 @@ def create_vault(vault_path: str, password: str, description: str = "My secure v
 
 
 
+
+def add_entry(vault_path: str, password: str, name: str, content: Optional[str] = None,
+              file_path: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> bool:
+    """
+    Add a new entry to an existing vault.
+
+    Args:
+        vault_path: Path to vault file
+        password: Master password
+        name: unique name for the entry
+        content: Text content (optional)
+        file_path: Path to file (optiona, alternative to content)
+        metadata: Additional metadata as dictionaty
+
+    Returns:
+        True if successful, False otherwise
+
+    Example:
+        add_entry('vault.nvault', 'password', 'email', content='my@email.com', metadata={'type': 'email'})
+    """
+    try:
+        # Import here
+        from ..core import NeoVault, VaultEntry
+
+        # Load existing vault
+        vault = NeoVault()
+        if not vault.load_vault(vault_path, password):
+            print(f"❌ Failed to load vault. Wrong password or corrupt file.")
+            return False
+        
+        # Check if entry already exists
+        if vault.get_entry(name):
+            print(f"❌ Entry '{name}' already exists in vault")
+            return False
+        
+        # Create and add entry
+        entry = VaultEntry(
+            name=name,
+            content=content,
+            file_path=file_path,
+            metadata=metadata or {}
+        )
+
+        if not vault.add_entry(entry):
+            print(f"❌ Failed to add entry '{name}'")
+            return False
+        
+        # Save updated vault
+        if vault.save_vault(password, vault_path):
+            print(f"✅ Entry added: '{name}'")
+
+            # Show entry
+            if content:
+                preview = content[:50] + ('...' if len(content) > 50 else '')
+                print(f"  Content: {preview}")
+            if file_path:
+                print(f"  File: {file_path}")
+            if metadata:
+                print(f"  Metadata: {metadata}")
+
+            return True
+        else:
+            print(f"❌ Failed to save vault after adding entry")
+            return False
+
+    except Exception as e:
+        print(f"❌ Error adding entry: {str(e)}")
+        return False
+
+
+
+
 # Prueba simple de este archivo
 def _test_commands():
     """Test the commands module."""
