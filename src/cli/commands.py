@@ -182,6 +182,74 @@ def add_entry(vault_path: str, password: str, name: str, content: Optional[str] 
 
 
 
+def list_entries(vault_path: str, password: str, show_details: bool = False) -> Optional[List[str]]:
+    """
+    List all entries in a vault.
+
+    Args:
+        vault_path: Path to vault file
+        password: Master password
+        show_details: If True, show entry details (content preview, metadata)
+
+    Returns:
+    List of entry names if successful, None on error
+
+    Example:
+        entries = list_entries('vault.nvault', 'password')
+        # Returns: ['email', 'ssh_key_note', 'bank_account']
+    """
+    try:
+        # Import here
+        from ..core import NeoVault
+
+        # Load vault
+        vault = NeoVault()
+        if not vault.load_vault(vault_path, password):
+            print(f"❌ Failed to load vault. Wrong password or corrupt file.")
+            return None
+        
+        # Get all entries
+        entries = vault.list_entries()
+
+        if not entries:
+            print("📭 Vault is empty")
+            return []
+        
+        # Display entries
+        print(f"📋 Entries in vault ({len(entries)}):")
+
+        if show_details:
+            for i, entry_name in enumerate(entries, 1):
+                entry = vault.get_entry(entry_name)
+                if entry:
+                    print(f"\n {i}. {entry_name}")
+                    print(f"    Created: {entry.created_at[:10]}") # Just date
+
+                    if entry.content:
+                        preview = entry.content[:40]
+                        if len(entry.content) > 40:
+                            preview += "..."
+                        print(f"     Content: {preview}")
+
+                    if entry.file_path:
+                        print(f"     File: {entry.file_path}")
+
+                    if entry.metadata:
+                        meta_str = ", ".join([f"{k}:{v}" for k, v in entry.metadata.items()])
+                        print(f"     Metadata: {meta_str}")
+
+        else:
+            # SImple list
+            for i, entry_name in enumerate(entries, 1):
+                print(f"  {i}. {entry_name}") 
+
+        return entries
+    
+    except Exception as e:
+        print(f"❌ Error listing entries: {str(e)}")
+        return None
+
+
 
 # Prueba simple de este archivo
 def _test_commands():
