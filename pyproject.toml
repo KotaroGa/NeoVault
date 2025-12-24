@@ -5,13 +5,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neovault"
-version = "0.3.0"
+version = "0.3.1"
 description = "🔐 NeoVault - Secure File Vault (Matrix Edition)"
 readme = "README.md"
-authors = [
-    {name = "KotaroGa"}
-]
-license = {text = "MIT"}
+authors = [{name = "KotaroGa"}]
+license = "MIT"
+requires-python = ">=3.8"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: End Users/Desktop",
