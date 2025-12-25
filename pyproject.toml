@@ -1,0 +1,47 @@
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neovault"
+version = "0.3.1"
+description = "🔐 NeoVault - Secure File Vault (Matrix Edition)"
+readme = "README.md"
+authors = [{name = "KotaroGa"}]
+license = "MIT"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Natural Language :: English",
+]
+keywords = ["vault", "encryption", "security", "password-manager", "cryptography", "cli"]
+dependencies = [
+    "cryptography>=42.0.0",
+    "colorama>=0.4.6",
+    "customtkinter>=5.2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/KotaroGa/NeoVault"
+Bug-Tracker = "https://github.com/KotaroGa/NeoVault/issues"
+Source = "https://github.com/KotaroGa/NeoVault"
+
+[project.scripts]
+nvault = "cli.main:main"
+neovault = "cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["core*", "cli*"]
