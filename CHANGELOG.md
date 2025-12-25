@@ -4,6 +4,36 @@
 - >_ ALL CHANGES ARE RECORDED HERE
 
 
+### [v0.3.1] - 25.12.2025
+
+#### ADDED
+- Complete Python packaging with `setup.py` and modern `pyproject.toml`
+- Installable via `pip install -e .` with global `nvault` system command
+- SPDX license expression and proper PyPI metadata configuration
+- Python version requirement specification (`requires-python = ">=3.8"`)
+
+#### CHANGED
+- Project structure optimized for package distribution
+- Moved from deprecated license classifiers to SPDX expressions
+- Updated packaging configuration for modern setuptools compatibility
+
+#### FIXED
+- [x] Pyproject.toml configuration errors for license and requires-python
+- [x] Build system configuration for editable installations
+
+### TECHNICAL
+- Package can now be installed as system-wide command
+- Entry points configured for `nvault` and `neovault` commands
+- All dependencies properly specified in pyproject.toml
+- Ready for PyPI distribution pipeline
+
+### NOTES
++ >_SYSTEM: PACKAGING PIPELINE OPERATIONAL
++ >_STATUS: INSTALLABLE VIA PIP
++ >_NEXT: COMPLETE CLI COMMAND IMPLEMENTATION
++ >_USABILITY: BASIC GENERATE COMMAND AVAILABLE GLOBALLY
+
+
 
 ### [v0.3.0] - 21.12.2025
 
@@ -58,9 +88,9 @@
 - Core module exports updated with clean API
 
 #### Fixed
-- Missing encrypt_to_json and decrypt_from_json functions in crypto.py
-- Syntax errors in vault test functions
-- Incorrect imports in core module initialization
+- [x] Missing encrypt_to_json and decrypt_from_json functions in crypto.py
+- [x] Syntax errors in vault test functions
+- [x] Incorrect imports in core module initialization
 
 #### Security
 - Vault encryption with password-derived keys using PBKDF2
@@ -97,7 +127,7 @@
 - Secure key derivation with high iteration count
 
 #### Fixed
-- Type hints in key_derivation.py (Optional[bytes] instead of bytes = None)
+- [x] Type hints in key_derivation.py (Optional[bytes] instead of bytes = None)
 
 #### Technical
 - Added `cryptography==42.0.0` dependency
