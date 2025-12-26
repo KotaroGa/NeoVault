@@ -4,7 +4,7 @@ NeoVault CLI Module
 Command Line Interface for NeoVault secure file vault.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.2"
 
 # These will be available when we implement the full commands
 # from .commands import (
