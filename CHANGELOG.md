@@ -1,7 +1,87 @@
 
+
 ## NeoVault
 - >_ LOG INITIATED: SYSTEM BOOT
 - >_ ALL CHANGES ARE RECORDED HERE
+
+
+### [v0.3.2] - 26.12.2025
+
+#### ADDED
+- Complete CLI command integration with global `nvault` command
+- All 8 commands operational: `create`, `add`, `list`, `search`, `get`, `remove`, `generate`, `shell`
+- Comprehensive argument parsing for each command
+- Metadata support via JSON for `add` command
+- Detailed listing with `--details` flag
+- Content search with `--content` flag
+- Password reveal with `--show` flag
+- Force removal with `--force` flag
+
+#### CHANGED
+- Updated `main.py` to integrate all functions from `commands.py`
+- Improved command-line argument validation
+- Enhanced user feedback and error messages
+- Streamlined password input handling across all commands
+
+#### FIXED
+- Proper command routing in main entry point
+- Metadata JSON parsing for add command
+- Password confirmation for vault creation
+- Command-specific help documentation
+
+#### TECHNICAL
+- Full integration between CLI interface and core commands
+- Consistent error handling across all operations
+- Proper exit codes for success/failure
+- Keyboard interrupt handling for user cancellation
+
+#### NOTES
++ >_SYSTEM: CLI COMPLETE AND OPERATIONAL
++ >_STATUS: ALL 8 COMMANDS AVAILABLE GLOBALLY
++ >_NEXT: COMPREHENSIVE CLI UNIT TESTING
++ >_USABILITY: FULL TERMINAL-BASED VAULT MANAGEMENT
+
+#### COMMAND REFERENCE
+```
+`nvault create`<vault.nvault> -> Create new encrypted vault
+`nvault add`<name> `--content` "secret" -> Add entry with optional metadata
+`nvault list --details` -> List entries (basic/detailed)
+`nvault search` <query> `--content` -> Search entries by name/metadata/content
+`nvault get` <name> `--show` -> Get entry details (masked/unmasked)
+`nvault remove` <name> `--force` -> Remove entry (with/without confirmation)
+`nvault generate` `--length N` -> Generate secure password
+`nvault shell` -> Enter interactive shell mode 
+```
+
+
+### [v0.3.1] - 25.12.2025
+
+#### ADDED
+- Complete Python packaging with `setup.py` and modern `pyproject.toml`
+- Installable via `pip install -e .` with global `nvault` system command
+- SPDX license expression and proper PyPI metadata configuration
+- Python version requirement specification (`requires-python = ">=3.8"`)
+
+#### CHANGED
+- Project structure optimized for package distribution
+- Moved from deprecated license classifiers to SPDX expressions
+- Updated packaging configuration for modern setuptools compatibility
+
+#### FIXED
+- [x] Pyproject.toml configuration errors for license and requires-python
+- [x] Build system configuration for editable installations
+
+### TECHNICAL
+- Package can now be installed as system-wide command
+- Entry points configured for `nvault` and `neovault` commands
+- All dependencies properly specified in pyproject.toml
+- Ready for PyPI distribution pipeline
+
+### NOTES
++ >_SYSTEM: PACKAGING PIPELINE OPERATIONAL
++ >_STATUS: INSTALLABLE VIA PIP
++ >_NEXT: COMPLETE CLI COMMAND IMPLEMENTATION
++ >_USABILITY: BASIC GENERATE COMMAND AVAILABLE GLOBALLY
 
 
 
@@ -58,9 +138,9 @@
 - Core module exports updated with clean API
 
 #### Fixed
-- Missing encrypt_to_json and decrypt_from_json functions in crypto.py
-- Syntax errors in vault test functions
-- Incorrect imports in core module initialization
+- [x] Missing encrypt_to_json and decrypt_from_json functions in crypto.py
+- [x] Syntax errors in vault test functions
+- [x] Incorrect imports in core module initialization
 
 #### Security
 - Vault encryption with password-derived keys using PBKDF2
@@ -97,7 +177,7 @@
 - Secure key derivation with high iteration count
 
 #### Fixed
-- Type hints in key_derivation.py (Optional[bytes] instead of bytes = None)
+- [x] Type hints in key_derivation.py (Optional[bytes] instead of bytes = None)
 
 #### Technical
 - Added `cryptography==42.0.0` dependency
