@@ -1,7 +1,57 @@
 
+
 ## NeoVault
 - >_ LOG INITIATED: SYSTEM BOOT
 - >_ ALL CHANGES ARE RECORDED HERE
+
+
+### [v0.3.2] - 26.12.2025
+
+#### ADDED
+- Complete CLI command integration with global `nvault` command
+- All 8 commands operational: `create`, `add`, `list`, `search`, `get`, `remove`, `generate`, `shell`
+- Comprehensive argument parsing for each command
+- Metadata support via JSON for `add` command
+- Detailed listing with `--details` flag
+- Content search with `--content` flag
+- Password reveal with `--show` flag
+- Force removal with `--force` flag
+
+#### CHANGED
+- Updated `main.py` to integrate all functions from `commands.py`
+- Improved command-line argument validation
+- Enhanced user feedback and error messages
+- Streamlined password input handling across all commands
+
+#### FIXED
+- Proper command routing in main entry point
+- Metadata JSON parsing for add command
+- Password confirmation for vault creation
+- Command-specific help documentation
+
+#### TECHNICAL
+- Full integration between CLI interface and core commands
+- Consistent error handling across all operations
+- Proper exit codes for success/failure
+- Keyboard interrupt handling for user cancellation
+
+#### NOTES
++ >_SYSTEM: CLI COMPLETE AND OPERATIONAL
++ >_STATUS: ALL 8 COMMANDS AVAILABLE GLOBALLY
++ >_NEXT: COMPREHENSIVE CLI UNIT TESTING
++ >_USABILITY: FULL TERMINAL-BASED VAULT MANAGEMENT
+
+#### COMMAND REFERENCE
+```
+`nvault create`<vault.nvault> -> Create new encrypted vault
+`nvault add`<name> `--content` "secret" -> Add entry with optional metadata
+`nvault list --details` -> List entries (basic/detailed)
+`nvault search` <query> `--content` -> Search entries by name/metadata/content
+`nvault get` <name> `--show` -> Get entry details (masked/unmasked)
+`nvault remove` <name> `--force` -> Remove entry (with/without confirmation)
+`nvault generate` `--length N` -> Generate secure password
+`nvault shell` -> Enter interactive shell mode 
+```
 
 
 ### [v0.3.1] - 25.12.2025
