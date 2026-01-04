@@ -5,6 +5,36 @@
 - >_ ALL CHANGES ARE RECORDED HERE
 
 
+### [v0.3.3] - 04.01.2026
+
+#### ADDED
+- `tests/test_cli.py` - 18 tests for CLI commands and parsing
+- `tests/test_vault.py` - 12 tests for core vault functionality
+- `tests/test_crypto.py` - 10 tests for cryptography operations  
+- `tests/test_key_derivation.py` - 15+ tests for key derivation
+- `tests/test_integration.py` - 5 end-to-end workflow tests
+- `tests/test_ci.py` - CI environment verification
+
+#### CHANGED
+- Improved error handling throughout CLI
+- Better type hints and type checking
+- Enhanced documentation and examples
+- Fixed various edge cases discovered during testing
+
+#### TECHNICAL
+- `.github/workflows/ci.yml` - GitHub Actions workflow
+- Automated testing on push to `main` and `develop`
+- Test execution on Python 3.10, 3.11, and 3.12
+- Coverage reporting with `pytest-cov`
+
+#### NOTES
++ >_SYSTEM: CLI COMPLETE AND OPERATIONAL
++ >_STATUS: FULLY OPERATIONAL
++ >_NEXT: MATRIX GUI INTERFACE(V0.4.0)
++ >_USABILITY: FULL TERMINAL-BASED VAULT MANAGEMENT
+
+
+
 ### [v0.3.2] - 26.12.2025
 
 #### ADDED

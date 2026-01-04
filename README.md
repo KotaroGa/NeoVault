@@ -3,14 +3,15 @@
 > **MATRIX EDITION** | `>_ CLI OPERATIONAL`
 
 ![Matrix](https://img.shields.io/badge/STATUS-CLI_OPERATIONAL-green)
+![CI Tests](https://github.com/KotaroGa/NeoVault/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/PYTHON-3.8+-blue)
 ![Platform](https://img.shields.io/badge/PLATFORM-Win%20|%20Linux%20|%20macOS-black)
-![Version](https://img.shields.io/badge/VERSION-0.3.1-red)
+![Version](https://img.shields.io/badge/VERSION-0.3.3-red)
 
 
- - SYSTEM: Neovault v0.3.1 online
+ - SYSTEM: Neovault v0.3.3 online
  - MISSION: Protect Digital Assets
- - STATUS: CLI Interface Active
+ - STATUS: CLI & Testing Suite Active ✅
  - PROTOCOLS: AES-256-GCM | PBKDF2-HMAC-SHA256
 
 
@@ -18,11 +19,11 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/KotaroGa/neovault.git
+git clone https://github.com/KotaroGa/NeoVault.git
 cd neovault
 
 # Checkout latest release
-git checkout v0.3.1
+git checkout v0.3.3
 
 # Create virtual environment
 python -m venv .venv
@@ -35,19 +36,28 @@ source .venv/bin/activate
 # Install package in development mode
 pip install -e .
 
-# Test global command
+# Test the system
 nvault --version
 nvault generate --length 16
+nvault create secrets.nvault
+nvault add password --content "SuperSecret123!" --vault secrets.nvault
+nvault list --vault secrets.nvault
 ```
 > [!NOTE]
->##### Only `generate` command is currently available globally. Other commands require direct Python execution until  v0.3.2.
+>##### All CLI Commands are now available globally
 
 ### 🔮 FEATURES IMPLEMENTED
 - ✅ SETUP.PY & PYPROJECT.TOML COMPLETE
 - ✅ PIP INSTALLABLE PACKAGE (pip install -e .)
 - ✅ GLOBAL NVAULT COMMAND
+
 - ✅ BASIC GENERATE FUNCTIONALITY
-- 🔲 OTHER CLI COMMANDS (v0.3.2)
+- ✅ 60+ UNIT & INTEGRATION TESTS
+- ✅ GITHUB ACTIONS CI/CD PIPELINE
+- ✅ TEST COVERAGE REPORTING
+- ✅ MULTI-PYTHON SUPPORT (3.10-3.12)
+- ✅ CRYPTOGRAPHIC VALIDATION TESTS
+- ✅ END-TO-END WORKFLOW TESTS
 
 - ✅ CREATE VAULTS - nvault create <vault.nvault>
 - ✅ ADD SECRETS   - nvault add <name> --content "secret"
@@ -64,32 +74,33 @@ nvault generate --length 16
 - ✅ ENTRY METADATA SUPPORT
 - ✅ SECURE VAULT PERSISTENCE
 
-- ✅ CRYPTOGRAPHIC PRIMITIVES
 - ✅ KEY DERIVATION FUNCTIONS
 - ✅ BASIC FILE OPERATIONS
 - ✅ INTEGRATION TESTING
 
 
 ### 🚧 FEATURES IN PROGRESS
-- 🔄 COMPLETE CLI COMMAND INTEGRATION (0.3.2)
-- 🔄 UNIT TESTS FOR CLI MODULE (v0.3.3)
 - 🔲 MATRIX-STYLE GUI (v0.4.0)
 - 🔲 PASSWORD STRENGTH VALIDATOR
 - 🔲 PORTABLE EXECUTABLES
+- 🔲 TWO-FACTOR AUTHENTICATION
+- 🔲 AUDIT LOGGING
 
 
 ### ⚙️ TECH STACK
-- >_ BACKEND: Python 3.8+
+- >_ ZuN6hMPUtu7aBACKEND: Python 3.10+
 - >_ CRYPTO: cryptography (AES-256-GCM)
 - >_ CLI: Argparse + Getpass
-- >_ GUI: CustomTkinter (PLANNED)
+- >_ TESTING: pytest + coverage
+- >_ CI/CD: GitHub Actions
+- >_ GUI: CustomTkinter (v0.4.0)
 - >_ BUILD: PyInstaller (FUTURE)
 
 
 ### 🐉 WARNING
-- >_ THIS IS VERSION 0.3.1 - DEVELOPMENT
-- >_ PACKAGING COMPLETE, CLI PARTIAL
-- >_ ONLY `GENERATE` COMMAND AVAILABLE GLOBALLY
+- >_ THIS IS VERSION 0.3.3 - DEVELOPMENT
+- >_ CLI COMPLETE WITH ALL COMMANDS ✅
+- >_ TESTING SUITE ACTIVE (60+ TESTS) ✅
 - >_ DO NOT USE FOR PRODUCTION DATA
 - >_ SECURITY AUDIT PENDING
 - >_ ALWAYS BACKUP YOUR FILES
@@ -104,4 +115,4 @@ nvault generate --length 16
 
 > [🟢] BITCOIN (BTC): `bc1qlhup35a64qq0e6uc2v07s64tzjrmj8j9e24jmr`  
 > [🟢] ETHEREUM (ETH): `0x6D4DB084eaC2cF9D4BbF04FdCBd3e737FDD36dcc`  
-> [🟢] SOLANA (SOL): `51ueAbc6TC52UExxTKRZuN6hMPUtu7aoYSKuiWnLSci2`
+> [🟢] SOLANA (SOL): `51ueAbc6TC52UExxTKRoYSKuiWnLSci2`
