@@ -1,3 +1,4 @@
+
 """
 Unit tests for NeoVault CLI functionality
 Test command parsing, execution, and error handling
@@ -27,7 +28,6 @@ class TestCLIParser(unittest.TestCase):
     def test_parser_creation(self):
         """Test that parser is created successfully"""
         self.assertIsNotNone(self.parser)
-        # Actualizar para que coincida con el nombre real del programa
         self.assertIn(self.parser.prog, ['__main__.py', 'main.py'])
 
     def test_version_argument(self):
@@ -103,13 +103,11 @@ class TestCLIFunctions(unittest.TestCase):
     @patch('src.cli.commands.generate_password')
     def test_generate_password_function(self, mock_generate_password):
         """Test password generator function"""
-        # Configurar el mock
         mock_generate_password.return_value = "MockedPassword123!"
         
         # Importar después del mock
         from src.cli.commands import generate_password as real_generate_password
         
-        # Test with symbols
         password = real_generate_password(length=12, use_symbols=True)
         self.assertEqual(password, "MockedPassword123!")
         mock_generate_password.assert_called_once_with(length=12, use_symbols=True)
@@ -135,14 +133,13 @@ class TestCLICommandExecution(unittest.TestCase):
         if os.path.exists(self.temp_dir):
             shutil.rmtree(self.temp_dir)
     
-    @patch('src.cli.main.create_vault')  # ¡IMPORTANTE! Mockear en main.py, no en commands.py
+    @patch('src.cli.commands.create_vault')  # CORREGIDO: commands, no main
     @patch('getpass.getpass')
     def test_main_create_command(self, mock_getpass, mock_create_vault):
         """Test main function with create command."""
         mock_getpass.side_effect = ['TestPass123!', 'TestPass123!']
         mock_create_vault.return_value = True
         
-        # Test successful creation
         with patch('sys.stdout', new_callable=StringIO):
             result = main(['create', self.test_vault, '--description', 'Test vault'])
             self.assertEqual(result, 0)
@@ -159,9 +156,9 @@ class TestCLICommandExecution(unittest.TestCase):
         
         with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
             result = main(['create', self.test_vault])
-            self.assertEqual(result, 1)  # Should fail
+            self.assertEqual(result, 1)
     
-    @patch('src.cli.main.generate_password')  # ¡IMPORTANTE! Mockear en main.py
+    @patch('src.cli.commands.generate_password')  # CORREGIDO: commands, no main
     def test_main_generate_command(self, mock_generate_password):
         """Test main function with generate command."""
         mock_generate_password.return_value = 'GeneratedPassword123!'
@@ -170,11 +167,10 @@ class TestCLICommandExecution(unittest.TestCase):
             result = main(['generate', '--length', '20'])
             self.assertEqual(result, 0)
             output = mock_stdout.getvalue()
-            # El output tiene formato: "🔑 Generated password: GeneratedPassword123!"
             self.assertIn('GeneratedPassword123!', output)
             mock_generate_password.assert_called_once_with(length=20, use_symbols=True)
     
-    @patch('src.cli.main.generate_password')  # ¡IMPORTANTE! Mockear en main.py
+    @patch('src.cli.commands.generate_password')  # CORREGIDO: commands, no main
     def test_main_generate_no_symbols(self, mock_generate_password):
         """Test generate command with --no-symbols flag."""
         mock_generate_password.return_value = 'GeneratedPassword123'
@@ -194,26 +190,24 @@ class TestCLICommandExecution(unittest.TestCase):
             output = mock_stdout.getvalue()
             self.assertIn('usage:', output)
     
-    @patch('src.cli.main.generate_password')
+    @patch('src.cli.commands.generate_password')  # CORREGIDO: commands, no main
     def test_main_keyboard_interrupt(self, mock_generate_password):
         """Test handling of KeyboardInterrupt."""
         mock_generate_password.side_effect = KeyboardInterrupt()
         
         with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
             result = main(['generate'])
-            # En tu implementación actual, devuelve 130
             self.assertEqual(result, 130)
             output = mock_stdout.getvalue()
             self.assertIn('Operation cancelled', output)
     
-    @patch('src.cli.main.generate_password')
+    @patch('src.cli.commands.generate_password')  # CORREGIDO: commands, no main
     def test_main_general_exception(self, mock_generate_password):
         """Test handling of general exceptions."""
         mock_generate_password.side_effect = Exception("Test error")
         
         with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
             result = main(['generate'])
-            # En tu implementación actual, devuelve 1 para errores
             self.assertEqual(result, 1)
             output = mock_stdout.getvalue()
             self.assertIn('Error:', output)
@@ -228,7 +222,6 @@ class TestCLIErrorConditions(unittest.TestCase):
         with patch('sys.stderr', new_callable=StringIO):
             with self.assertRaises(SystemExit) as cm:
                 main(['invalidcommand'])
-            # Debería salir con código de error (2 para argparse)
             self.assertEqual(cm.exception.code, 2)
     
     def test_missing_required_arguments(self):
