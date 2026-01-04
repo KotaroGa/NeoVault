@@ -1,0 +1,39 @@
+
+name: CI Tests
+
+on:
+  push:
+    branches: [ main, develop, feature/cli-testing-suite ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Instalar cryptography primero (tiene dependencias específicas)
+        pip install cryptography
+        # Luego instalar desde requirements.txt
+        if [ -f "requirements.txt" ]; then
+          pip install -r requirements.txt
+        fi
+        # Instalar pytest para testing
+        pip install pytest
+    
+    - name: Run tests
+      run: |
+        echo "Running all tests..."
+        python -m pytest tests/ -v
+        echo "✅ Tests completed!"
