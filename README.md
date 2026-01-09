@@ -3,15 +3,13 @@
 > **MATRIX EDITION** | `>_ CLI OPERATIONAL`
 
 ![Matrix](https://img.shields.io/badge/STATUS-CLI_OPERATIONAL-green)
-![CI Tests](https://github.com/KotaroGa/NeoVault/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/PYTHON-3.8+-blue)
 ![Platform](https://img.shields.io/badge/PLATFORM-Win%20|%20Linux%20|%20macOS-black)
 ![Version](https://img.shields.io/badge/VERSION-0.3.3-red)
-
+![Tests](https://img.shields.io/badge/TESTS-60%2B%20passing-brightgreen)
 
  - SYSTEM: Neovault v0.3.3 online
  - MISSION: Protect Digital Assets
- - STATUS: CLI & Testing Suite Active ✅
  - PROTOCOLS: AES-256-GCM | PBKDF2-HMAC-SHA256
 
 
@@ -53,7 +51,6 @@ nvault list --vault secrets.nvault
 
 - ✅ BASIC GENERATE FUNCTIONALITY
 - ✅ 60+ UNIT & INTEGRATION TESTS
-- ✅ GITHUB ACTIONS CI/CD PIPELINE
 - ✅ TEST COVERAGE REPORTING
 - ✅ MULTI-PYTHON SUPPORT (3.10-3.12)
 - ✅ CRYPTOGRAPHIC VALIDATION TESTS
@@ -91,8 +88,7 @@ nvault list --vault secrets.nvault
 - >_ ZuN6hMPUtu7aBACKEND: Python 3.10+
 - >_ CRYPTO: cryptography (AES-256-GCM)
 - >_ CLI: Argparse + Getpass
-- >_ TESTING: pytest + coverage
-- >_ CI/CD: GitHub Actions
+- >_ TESTING: pytest + coverages
 - >_ GUI: CustomTkinter (v0.4.0)
 - >_ BUILD: PyInstaller (FUTURE)
 
