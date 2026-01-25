@@ -6,3 +6,4 @@ darkdetect==0.8.0
 packaging==25.0
 pycparser==2.23
 pytest==9.0.2
+psutil==7.2.1
