@@ -1,9 +1,49 @@
 
-
 ## NeoVault
 - >_ LOG INITIATED: SYSTEM BOOT
 - >_ ALL CHANGES ARE RECORDED HERE
 
+
+### [v0.4.0] - 10.02.2026
+
+#### ADDED
+- `src/gui/main_window.py` - Complete Matrix-style GUI interface
+- `src/gui/controllers.py` - MVC controllers for backend integration
+- Matrix green/black terminal theme with CustomTkinter
+- Vault manager with real file system integration
+- Password generator with strength calculation and rating
+- System status monitoring with CPU/memory usage
+- Persistent terminal logging area
+- Sidebar navigation with 5 functional sections
+- Dynamic content switching with clear separation
+
+#### CHANGED
+- Updated `pyproject.toml` with GUI entry point `nvault-gui`
+- Enhanced project structure with proper GUI module organization
+- Improved packaging for GUI dependencies
+- Status bar now shows real system information
+- Terminal area persists during view changes
+
+#### FIXED
+- Color transparency issues in CustomTkinter buttons
+- Dialog timing problems with `grab_set()` errors
+- Widget destruction conflicts during view switching
+- Import paths for controllers integration
+
+#### TECHNICAL
+- Implemented Model-View-Controller (MVC) architecture
+- Separated UI logic from business logic in controllers
+- Added `psutil` dependency for system monitoring
+- Added `pyperclip` for clipboard operations
+- CustomTkinter theme configuration for Matrix aesthetics
+
+#### NOTES
++ >_SYSTEM: MATRIX GUI INTERFACE COMPLETE
++ >_STATUS: GUI OPERATIONAL WITH CONTROLLERS
++ >_NEXT: BACKEND INTEGRATION AND ADVANCED FEATURES
++ >_USABILITY: VISUAL VAULT MANAGEMENT AVAILABLE
+
+---
 
 ### [v0.3.3] - 04.01.2026
 
@@ -33,7 +73,7 @@
 + >_NEXT: MATRIX GUI INTERFACE(V0.4.0)
 + >_USABILITY: FULL TERMINAL-BASED VAULT MANAGEMENT
 
-
+---
 
 ### [v0.3.2] - 26.12.2025
 
@@ -83,6 +123,7 @@
 `nvault shell` -> Enter interactive shell mode 
 ```
 
+---
 
 ### [v0.3.1] - 25.12.2025
 
@@ -113,7 +154,7 @@
 + >_NEXT: COMPLETE CLI COMMAND IMPLEMENTATION
 + >_USABILITY: BASIC GENERATE COMMAND AVAILABLE GLOBALLY
 
-
+---
 
 ### [v0.3.0] - 21.12.2025
 
@@ -155,7 +196,7 @@
 - >_NEXT: SETUP.PY AND UNIT TEST
 - >_SECURITY: TERMINAL-READY VAULT MANAGER
 
-
+---
 
 ### [v0.2.0] - 13.12.2025
 
@@ -190,7 +231,7 @@
 - >_NEXT: COMMAND LINE INTERFACE (CLI)
 - >_SECURITY: VAULT ENCRYPTION VERIFIED
 
-
+---
 
 ### [v0.1.0] - 10.12.2025
 

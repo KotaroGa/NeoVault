@@ -1,16 +1,18 @@
 ## 🔐 NEOVAULT - Secure File Vault
 
-> **MATRIX EDITION** | `>_ CLI OPERATIONAL`
+> **MATRIX EDITION** | `>_ GUI & CLI OPERATIONAL`
 
-![Matrix](https://img.shields.io/badge/STATUS-CLI_OPERATIONAL-green)
-![Python](https://img.shields.io/badge/PYTHON-3.8+-blue)
+![Matrix](https://img.shields.io/badge/STATUS-GUI_OPERATIONAL-green)
+![Python](https://img.shields.io/badge/PYTHON-3.10+-blue)
 ![Platform](https://img.shields.io/badge/PLATFORM-Win%20|%20Linux%20|%20macOS-black)
-![Version](https://img.shields.io/badge/VERSION-0.3.3-red)
+![Version](https://img.shields.io/badge/VERSION-0.4.0-red)
 ![Tests](https://img.shields.io/badge/TESTS-60%2B%20passing-brightgreen)
+![GUI](https://img.shields.io/badge/GUI-MATRIX_STYLE-00FF41)
 
- - SYSTEM: Neovault v0.3.3 online
- - MISSION: Protect Digital Assets
+ - SYSTEM: Neovault v0.4.0 online
+ - MISSION: Protect Digital Assets  
  - PROTOCOLS: AES-256-GCM | PBKDF2-HMAC-SHA256
+ - INTERFACE: CLI + MATRIX GUI
 
 
 ### 🚀 QUICK START
@@ -21,7 +23,7 @@ git clone https://github.com/KotaroGa/NeoVault.git
 cd neovault
 
 # Checkout latest release
-git checkout v0.3.3
+git checkout v0.4.0
 
 # Create virtual environment
 python -m venv .venv
@@ -34,17 +36,55 @@ source .venv/bin/activate
 # Install package in development mode
 pip install -e .
 
-# Test the system
+# Test CLI system
 nvault --version
 nvault generate --length 16
+
+# Launch Matrix GUI
+nvault-gui
+
+# Or use CLI commands
 nvault create secrets.nvault
 nvault add password --content "SuperSecret123!" --vault secrets.nvault
 nvault list --vault secrets.nvault
 ```
 > [!NOTE]
->##### All CLI Commands are now available globally
+>##### Dual Interface available: CLI for script, GUI for visual management
+
+
+### 🖥️ MATRIX GUI (v0.4.0)
+>_ LAUNCH: nvault-gui
+>_ THEME: Green/black terminal style
+>_ ARCHITECTURE: MVC with controllers
+>_ STATUS: Fully operational
+
+#### Features:
+- ✅ Matrix green/black terminal aesthetic
+- ✅ Sidebar navigation with 5 functional sections
+- ✅ Vault manager with real file system integration
+- ✅ Password generator with strength calculation
+- ✅ System status monitoring (CPU/Memory)
+- ✅ Persistent terminal logging area
+- ✅ Dynamic content switching
+- ✅ CustomTkinter-based interface
+
+#### Screens:
+- 📁 VAULTS - View and manage vault files
+- 🔑 GENERATE - Create secure passwords
+- 🔍 SEARCH - Search interface (placeholder)
+- ⚙️ SETTINGS - System configuration (placeholder)
+- 🖥️ TERMINAL - System terminal (placeholder)
+
+
 
 ### 🔮 FEATURES IMPLEMENTED
+- ✅ MATRIX-STYLE GUI INTERFACE
+- ✅ MVC CONTROLLERS ARCHITECTURE
+- ✅ REAL-TIME SYSTEM MONITORING
+- ✅ PASSWORD GENERATOR WITH STRENGTH RATING
+- ✅ VAULT FILE BROWSER
+- ✅ PERSISTENT TERMINAL LOGGING
+
 - ✅ SETUP.PY & PYPROJECT.TOML COMPLETE
 - ✅ PIP INSTALLABLE PACKAGE (pip install -e .)
 - ✅ GLOBAL NVAULT COMMAND
@@ -77,25 +117,30 @@ nvault list --vault secrets.nvault
 
 
 ### 🚧 FEATURES IN PROGRESS
-- 🔲 MATRIX-STYLE GUI (v0.4.0)
+- 🔲 BACKEND INTEGRATION (GUI ↔ Core)
+- 🔲 ADVANCED VAULT BROWSER
 - 🔲 PASSWORD STRENGTH VALIDATOR
 - 🔲 PORTABLE EXECUTABLES
 - 🔲 TWO-FACTOR AUTHENTICATION
 - 🔲 AUDIT LOGGING
+- 🔲 MATRIX ANIMATIONS (Rain effect)
 
 
 ### ⚙️ TECH STACK
-- >_ ZuN6hMPUtu7aBACKEND: Python 3.10+
+- >_ BACKEND: Python 3.10+
 - >_ CRYPTO: cryptography (AES-256-GCM)
 - >_ CLI: Argparse + Getpass
+- >_ GUI: CustomTkinter 5.2.0+
+- >_ CONTROLLERS: MVC Architecture
+- >_ SYSTEM: psutil for monitoring
 - >_ TESTING: pytest + coverages
-- >_ GUI: CustomTkinter (v0.4.0)
 - >_ BUILD: PyInstaller (FUTURE)
 
 
 ### 🐉 WARNING
-- >_ THIS IS VERSION 0.3.3 - DEVELOPMENT
+- >_ THIS IS VERSION 0.4.0 - DEVELOPMENT
 - >_ CLI COMPLETE WITH ALL COMMANDS ✅
+- >_ GUI FUNCTIONAL WITH BASIC FEATURES ✅
 - >_ TESTING SUITE ACTIVE (60+ TESTS) ✅
 - >_ DO NOT USE FOR PRODUCTION DATA
 - >_ SECURITY AUDIT PENDING
